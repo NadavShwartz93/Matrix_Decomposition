@@ -13,14 +13,14 @@ namespace Jacobi {
 		find_max_num method find the largest off-diagonal element, and return his index and value.
 		The given matrix is symmetric, so only need to search in the upper triangular matrix.
 	*/
-	tuple<double, int, int> find_max_num(vector<vector<double>>& matrix);
+	tuple<double, int, int> find_max_num(const Matrix& matrix);
 
 
 	/*
 		calce_J_matrix method find the rotation matrix that called J:
 	*/
-	tuple<vector<vector<double>>, double, double> calce_J_matrix(
-		vector<vector<double>>& matrix, int p, int q);
+	tuple<Matrix, double, double> calce_J_matrix(
+		const Matrix& matrix, int p, int q);
 
 
 	/*
@@ -28,7 +28,7 @@ namespace Jacobi {
 		matrix multiplication of J.T*A*J is replaced by some elementary operations.
 		And then, the all function is O(n) instead of O(n^2).
 	*/
-	void calc_matrix(vector<vector<double>>& mtx, double cos, double sin, int i, int j);
+	void calc_matrix(Matrix& mtx, double cos, double sin, int i, int j);
 
 
 	/*
@@ -36,37 +36,37 @@ namespace Jacobi {
 		Convert matrix elemnt that is smaller than TOTAL (almost equal to 0) to be 0.
 		Check if the given matrix is diagonal.
 	*/
-	bool check_and_update(vector<vector<double>>& matrix);
+	bool check_and_update(Matrix& matrix);
 
 
 	/*
 		Jacobi method Implemnt [Jacobi Eigenvalue Algorithm](https://en.wikipedia.org/wiki/Jacobi_eigenvalue_algorithm)
 		The method return Eigenvalues and Eigenvectors.
 	*/
-	std::tuple<vector<vector<double>>, vector<double>, int>
-		Jacobi(vector<vector<double>> matrix);
+	std::tuple<Matrix, Vector, int>
+		Jacobi(Matrix matrix);
 
 
 	/*
 		rearrange method remove negative and zero Eigenvalues and their Eigenvectors.
 		The method return Sorted list, of Eigenvalues and their Eigenvectors.
 	*/
-	vector<std::tuple<double, vector<double>>>
-		rearrange(vector<vector<double>>& eigenvectors, vector<double>& lamdas);
+	vector<std::tuple<double, Vector>>
+		rearrange(const Matrix& eigenvectors, const Vector& lamdas);
 
 
 	/*
 		This method get input matrix and perfome Singular Value Decomposition (SVD).
 	*/
-	std::tuple<vector<vector<double>>, vector<double>, vector<vector<double>>>
-		SVD(vector<vector<double>>& input_matrix);
+	std::tuple<Matrix, Vector, Matrix>
+		SVD(const Matrix& input_matrix);
 
 
 	/*
 		Checking that the U * S * VT is equal to input matrix.
 	*/
-	void check_decomposition(vector<vector<double>>& input_matrix,
-		vector<vector<double>> U, vector<double> Sigma, vector<vector<double>> V_T);
+	void check_decomposition(const Matrix& input_matrix,
+		Matrix U, Vector Sigma, Matrix V_T);
 
 
 };

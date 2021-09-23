@@ -18,7 +18,7 @@ namespace Jacobi {
 	find_max_num method find the largest off-diagonal element, and return his index and value.
 	The given matrix is symmetric, so only need to search in the upper triangular matrix.
 	*/
-	std::tuple<double, int, int> find_max_num(vector<vector<double>>& matrix) {
+	std::tuple<double, int, int> find_max_num(const Matrix& matrix) {
 		int row = matrix.size();
 		int col = matrix[0].size();
 		int p, q;
@@ -48,8 +48,8 @@ namespace Jacobi {
 	/*
 	calce_J_matrix method find the rotation matrix that called J:
 	*/
-	std::tuple<vector<vector<double>>, double, double>
-	calce_J_matrix(vector<vector<double>>& matrix, int p, int q) {
+	std::tuple<Matrix, double, double>
+	calce_J_matrix(const Matrix& matrix, int p, int q) {
 
 		//Check that the given matrix is square matrix
 		if (matrix.size() != matrix[0].size()) {
@@ -86,7 +86,7 @@ namespace Jacobi {
 	matrix multiplication of J.T*A*J is replaced by some elementary operations.
 	And then, the all function is O(n) instead of O(n^2).
 	*/
-	void calc_matrix(vector<vector<double>>& mtx, double cos, double sin, int i, int j) {
+	void calc_matrix(Matrix& mtx, double cos, double sin, int i, int j) {
 		double a_ii = mtx[i][i];
 		double a_ij = mtx[i][j];
 		double a_jj = mtx[j][j];
@@ -122,7 +122,7 @@ namespace Jacobi {
 	Convert matrix elemnt that is smaller than TOTAL (almost equal to 0) to be 0.
 	Check if the given matrix is diagonal.
 	*/
-	bool check_and_update(vector<vector<double>>& matrix) {
+	bool check_and_update(Matrix& matrix) {
 		//bool isDiagonalMatrix = true;
 		int row = matrix.size();
 		int col = matrix[0].size();
@@ -151,8 +151,8 @@ namespace Jacobi {
 	Jacobi method Implemnt [Jacobi Eigenvalue Algorithm](https://en.wikipedia.org/wiki/Jacobi_eigenvalue_algorithm)
 	The method return Eigenvalues and Eigenvectors.
 	*/
-	std::tuple<vector<vector<double>>, vector<double>, int>
-		Jacobi(vector<vector<double>> matrix) {
+	std::tuple<Matrix, Vector, int>
+		Jacobi(Matrix matrix) {
 
 		//Check that the given matrix is square matrix
 		if (matrix.size() != matrix[0].size()) {
@@ -162,7 +162,7 @@ namespace Jacobi {
 
 		//Initialize of the variables:
 		int n = matrix.size();
-		vector<vector<double>> J = eye_matrix(n);
+		Matrix J = eye_matrix(n);
 
 		//Set limit on the number of iterations:
 		int max_iterations = 100;
@@ -182,7 +182,7 @@ namespace Jacobi {
 
 			//Get rotation matrix and get cos and sin values:
 			auto tuple2 = calce_J_matrix(matrix, p, q);
-			vector<vector<double>> J1 = std::get<0>(tuple2);
+			Matrix J1 = std::get<0>(tuple2);
 			double cosinus = std::get<1>(tuple2);
 			double sinus = std::get<2>(tuple2);
 
@@ -206,10 +206,10 @@ namespace Jacobi {
 		rearrange method remove negative and zero Eigenvalues and their Eigenvectors.
 		The method return Sorted list, of Eigenvalues and their Eigenvectors.
 		*/
-	vector<std::tuple<double, vector<double>>>
-	rearrange(vector<vector<double>>& eigenvectors, vector<double>& lamdas) {
+	vector<std::tuple<double, Vector>>
+	rearrange(const Matrix& eigenvectors, const Vector& lamdas) {
 		//Initialize of the variables:
-		vector<std::tuple<double, vector<double>>> t_vecs;
+		vector<std::tuple<double, Vector>> t_vecs;
 		bool flag = false;
 
 		for (std::size_t i = 0; i < lamdas.size(); ++i)
@@ -248,18 +248,18 @@ namespace Jacobi {
 	/*
 	This method get input matrix and perfome Singular Value Decomposition (SVD).
 	*/
-	std::tuple<vector<vector<double>>, vector<double>, vector<vector<double>>>
-	SVD(vector<vector<double>>& input_matrix) {
+	std::tuple<Matrix, Vector, Matrix>
+	SVD(const Matrix& input_matrix) {
 
 		//copy constructor
-		vector<vector<double>> AT = input_matrix;
+		Matrix AT = input_matrix;
 		transpose(AT);
 
 		auto AT_T = dot_product(AT, input_matrix);
 
 		auto tuple1 = Jacobi(AT_T);
-		vector<vector<double>> eigenvectors = std::get<0>(tuple1);
-		vector<double> eigenvalues = std::get<1>(tuple1);
+		Matrix eigenvectors = std::get<0>(tuple1);
+		Vector eigenvalues = std::get<1>(tuple1);
 
 
 		std::cout << "Eigenvectors = " << std::endl;
@@ -271,22 +271,22 @@ namespace Jacobi {
 
 		//Build Sigma matrix - contain the Singular Values in descending order on the main diagonal :
 
-		vector<double> Sigma(vec.size());
+		Vector Sigma(vec.size());
 
 		//Build U matrix - (1 / Singular Values) * A * V
 
-		vector<vector<double>> U;
+		Matrix U;
 
 		//Build V.T matrix - contain the transpose of the eigenvectors.
 
-		vector<vector<double>> V_T;
+		Matrix V_T;
 
 		for (int i = 0; i < vec.size(); i++)
 		{
 			auto tuple2 = vec[i];
 
 			double lamda = std::get<0>(tuple2);
-			vector<double> v1 = std::get<1>(tuple2);
+			Vector v1 = std::get<1>(tuple2);
 
 			double s = sqrt(lamda);
 
@@ -296,7 +296,7 @@ namespace Jacobi {
 
 			//Create u vector by multiply scalar on dot product of input matrix with v vector ==> (1/s)*input_matix*v:
 			double scalar = 1 / s;
-			vector<vector<double>> v_t = { v };
+			Matrix v_t = { v };
 			transpose(v_t);
 
 			v_t = dot_product(input_matrix, v_t);
@@ -322,8 +322,8 @@ namespace Jacobi {
 	/*
 	Checking that the U * S * VT is equal to input matrix.
 	*/
-	void check_decomposition(vector<vector<double>>& input_matrix,
-	vector<vector<double>> U, vector<double> Sigma, vector<vector<double>> V_T) {
+	void check_decomposition(const Matrix& input_matrix,
+	Matrix U, Vector Sigma, Matrix V_T) {
 
 		std::cout << "Examination Of The Decomposition: " << std::endl;
 		std::cout << "Inpute Matrix = " << std::endl;

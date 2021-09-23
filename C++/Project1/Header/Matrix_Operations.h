@@ -8,6 +8,8 @@
 #include <functional>
 
 using namespace std;
+using Vector = std::vector<double>;
+using Matrix = std::vector<std::vector<double>>;
 
 namespace Matrix_Operations {
 
@@ -16,46 +18,46 @@ namespace Matrix_Operations {
 /*
 	print_vec method print the given vector to the console.
 */
-	void print_vec(vector<double>& v);
+	void print_vec(const Vector& v);
 
 
 	/*
 		print_matrix method print the given matrix to the console.
 	*/
-	void print_matrix(vector<vector<double>>& matrix);
+	void print_matrix(const Matrix& matrix);
 
 
 	/*
 		read_file method read the all content from the input file.
 		The method return matrix with all the values from the input file.
 	*/
-	vector<vector<double>> read_file(const std::string& file_name);
+	Matrix read_file(const std::string& file_name);
 
 
 	/*
 		read_line method get string value and convert it to vector of double.
 	*/
-	vector<double> read_line(std::string line);
+	Vector read_line(std::string line);
 
 
 	/*
 	write_to_file method write the content of the given matrix to the file.
-	The method True if succeeded.
+	The method return True if succeeded.
 	*/
-	bool write_to_file(const std::string& file_name, vector<vector<double>>& mtx);
+	bool write_to_file(const std::string& file_name, const Matrix& mtx);
 
 
 	/*
 	generate_matrix method randomly generate matrix.
 	*/
-	vector<vector<double>> generate_matrix(int size);
+	Matrix generate_matrix(int size);
 
 	//Methods for Matrix Operation:
 
 	/*
 		This method return the vetor length.
 	*/
-	double vec_length(vector<double>& v);
+	double vec_length(const Vector& v);
 
 
 	/*
@@ -72,73 +74,73 @@ namespace Matrix_Operations {
 	   {4, 5.5, 6}
 	 }
 	*/
-	void transpose(vector<vector<double>>& matrix);
+	void transpose(Matrix& matrix);
 
 
 	/*
 		dot_product method perform matrix multiplication, and return the result.
 	*/
-	vector<vector<double>> dot_product
-	(vector<vector<double>>& matrix1, vector<vector<double>> matrix2,
+	Matrix dot_product
+	(const Matrix& matrix1, Matrix matrix2,
 		std::function<void(double&)> F = nullptr);
 
 
 	/*
 		dot_product method return the result of the multiplication between vector1 and vector2.
 	*/
-	double dot_product(vector<double>& v1, vector<double>& v2, std::function<void(double&)> F = nullptr);
+	double dot_product(const Vector& v1, const Vector& v2, std::function<void(double&)> F = nullptr);
 
 
 	/*
 		dot_product method return the result of the multiplication between given scalar and vector.
 	*/
-	vector<double> dot_product(double scalar, vector<double>& v);
+	Vector dot_product(double scalar, Vector& v);
 
 
 	/*
 		rotation_product method execute matrix multiplication of regular matrix and rotation matrix.
 	*/
-	vector<vector<double>> rotation_product(vector<vector<double>>& matrix,
-		vector<vector<double>> rotation, int p, int q);
+	Matrix rotation_product(Matrix& matrix,
+		Matrix rotation, int p, int q);
 
 
 	/*
 		diagonal_multiplication method execute matrix multiplication of regular matrix
 		and diagonal matrix.
 	*/
-	vector<vector<double>> diagonal_multiplication(vector<vector<double>>& matrix,
-		vector<vector<double>>& diagonal);
+	Matrix diagonal_multiplication(Matrix& matrix,
+		const Matrix& diagonal);
 
 
 	/*
 		eye_matrix method return the identity matrix of size n.
 	*/
-	vector<vector<double>> eye_matrix(int n);
+	Matrix eye_matrix(int n);
 
 
 	/*
 		get_diag method return vector that contains the elements that on the matrix diagonal.
 	*/
-	vector<double> get_diag(vector<vector<double>>& matrix);
+	Vector get_diag(const Matrix& matrix);
 
 
 	/*
 		diag_to_matrix method convert a vector to diagonal matrix in size size_val value.
 	*/
-	vector<vector<double>> diag_to_matrix(vector<double>& diagonal, int size_val);
+	Matrix diag_to_matrix(const Vector& diagonal, int size_val);
 
 
 	/*
 		get_column method get matrix and column. The method rturn vector
 		with the elements of this matrix's column.
 	*/
-	vector<double> get_column(vector<vector<double>>& matrix, int column);
+	Vector get_column(const Matrix& matrix, int column);
 
 
 	/*
 		This method return a copy of the array collapsed into one dimension.
 	*/
-	vector<double> flatten(vector<vector<double>>& matrix);
+	Vector flatten(const Matrix& matrix);
 
 
 	/*

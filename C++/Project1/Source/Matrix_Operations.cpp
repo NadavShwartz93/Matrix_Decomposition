@@ -19,7 +19,7 @@ namespace Matrix_Operations {
 	/*
 		print_vec method print the given vector to the console.
 	*/
-	void print_vec(vector<double>& v) {
+	void print_vec(const Vector& v) {
 		bool flag = false;
 
 		for (std::size_t i = 0; i < v.size(); ++i)
@@ -48,7 +48,7 @@ namespace Matrix_Operations {
 	/*
 		print_matrix method print the given matrix to the console.
 	*/
-	void print_matrix(vector<vector<double>>& matrix) {
+	void print_matrix(const Matrix& matrix) {
 		bool flag = false;
 
 		for (std::size_t i = 0; i < matrix.size(); ++i)
@@ -86,10 +86,10 @@ namespace Matrix_Operations {
 		read_file method read the all content from the input file.
 		The method return matrix with all the values from the input file.
 	*/
-	vector<vector<double>> read_file(const std::string& file_name) {
+	Matrix read_file(const std::string& file_name) {
 		std::string line;
 		fstream newfile;
-		vector<vector<double>> matrix;
+		Matrix matrix;
 
 		newfile.open(file_name, ios::in); //open a file to perform read operation using file object
 
@@ -109,9 +109,9 @@ namespace Matrix_Operations {
 	/*
 		read_line method get string value and convert it to vector of double.
 	*/
-	vector<double> read_line(std::string line) {
+	Vector read_line(std::string line) {
 
-		vector<double> v;
+		Vector v;
 
 		size_t pos = 0;
 		std::string delimiter = ",";
@@ -136,7 +136,7 @@ namespace Matrix_Operations {
 	write_to_file method write the content of the given matrix to the file.
 	The method True if succeeded.
 	*/
-	bool write_to_file(const std::string& file_name, vector<vector<double>>& mtx) {
+	bool write_to_file(const std::string& file_name, const Matrix& mtx) {
 
 		int row = mtx.size();
 		int col = mtx[0].size();
@@ -172,7 +172,7 @@ namespace Matrix_Operations {
 	/*
 	generate_matrix method randomly generate matrix.
 	*/
-	vector<vector<double>> generate_matrix(int size) {
+	Matrix generate_matrix(int size) {
 
 		//Initialize parameters:
 		std::random_device rd;
@@ -180,8 +180,8 @@ namespace Matrix_Operations {
 		std::uniform_int_distribution<int> dist(0, 80);
 
 
-		vector<double> v(size);
-		vector<vector<double>> new_matrix(size, v);
+		Vector v (size);
+		Matrix new_matrix (size, v);
 
 		for (int i = 0; i < size; i++)
 		{
@@ -195,14 +195,13 @@ namespace Matrix_Operations {
 
 
 
-
 	//Matrix Operation Methods:
 
 
 	/*
 		This method return the vetor length.
 	*/
-	double vec_length(vector<double>& v) {
+	double vec_length(const Vector& v) {
 		double sum = 0;
 		for (auto& num : v) {
 			sum += pow(num, 2);
@@ -226,14 +225,14 @@ namespace Matrix_Operations {
 	   {4, 5.5, 6}
 	 }
 	*/
-	void transpose(vector<vector<double>>& matrix) {
-		vector<vector<double>> new_matrix;
+	void transpose(Matrix& matrix) {
+		Matrix new_matrix;
 		int row = matrix.size();
 		int col = matrix[0].size();
 
 		for (int i = 0; i < col; i++)
 		{
-			vector<double> v;
+			Vector v;
 
 			for (int j = 0; j < row; j++)
 			{
@@ -250,8 +249,8 @@ namespace Matrix_Operations {
 	/*
 		dot_product method perform matrix multiplication, and return the result.
 	*/
-	vector<vector<double>> dot_product(vector<vector<double>>& matrix1,
-		vector<vector<double>> matrix2, std::function<void(double&)> F) {
+	Matrix dot_product(const Matrix& matrix1,
+		Matrix matrix2, std::function<void(double&)> F) {
 
 		int row_matrix1 = matrix1.size();
 		int col_matrix1 = matrix1[0].size();
@@ -272,8 +271,8 @@ namespace Matrix_Operations {
 		int row_matrix2_T = matrix2.size();
 
 		//pre-allocation of the vector size:
-		vector<double> v(row_matrix2_T);
-		vector<vector<double>> new_matrix(row_matrix1, v);
+		Vector v(row_matrix2_T);
+		Matrix new_matrix(row_matrix1, v);
 
 		for (int i = 0; i < row_matrix1; i++)
 		{
@@ -290,7 +289,7 @@ namespace Matrix_Operations {
 	/*
 		dot_product method return the result of the multiplication between vector1 and vector2.
 	*/
-	double dot_product(vector<double>& v1, vector<double>& v2, std::function<void(double&)> F) {
+	double dot_product(const Vector& v1, const Vector& v2, std::function<void(double&)> F) {
 		int n;
 
 		if ((n = v1.size()) != v2.size()) {
@@ -313,7 +312,7 @@ namespace Matrix_Operations {
 	/*
 		dot_product method return the result of the multiplication between given scalar and vector.
 	*/
-	vector<double> dot_product(double scalar, vector<double>& v) {
+	Vector dot_product(double scalar, Vector& v) {
 
 		for (std::size_t i = 0; i < v.size(); ++i)
 		{
@@ -326,8 +325,8 @@ namespace Matrix_Operations {
 	/*
 		rotation_product method execute matrix multiplication of regular matrix and rotation matrix.
 	*/
-	vector<vector<double>> rotation_product(vector<vector<double>>& matrix,
-		vector<vector<double>> rotation, int p, int q) {
+	Matrix rotation_product(Matrix& matrix,
+		Matrix rotation, int p, int q) {
 		int row_matrix = matrix.size();
 		int col_matrix = matrix[0].size();
 		int row_rotation = rotation.size();
@@ -370,8 +369,8 @@ namespace Matrix_Operations {
 		diagonal_multiplication method execute matrix multiplication of regular matrix
 		and diagonal matrix.
 	*/
-	vector<vector<double>> diagonal_multiplication(vector<vector<double>>& matrix,
-		vector<vector<double>>& diagonal) {
+	Matrix diagonal_multiplication(Matrix& matrix,
+		const Matrix& diagonal) {
 		int row_matrix = matrix.size();
 		int col_matrix = matrix[0].size();
 		int row_diagonal = diagonal.size();
@@ -398,10 +397,10 @@ namespace Matrix_Operations {
 	/*
 		eye_matrix method return the identity matrix of size n.
 	*/
-	vector<vector<double>> eye_matrix(int n) {
+	Matrix eye_matrix(int n) {
 		//pre-allocation of the vector size:
-		vector<double> v(n, 0.0);
-		vector<vector<double>> I(n, v);
+		Vector v(n, 0.0);
+		Matrix I(n, v);
 
 		for (int i = 0; i < n; i++)
 			I[i][i] = 1.0;
@@ -413,7 +412,7 @@ namespace Matrix_Operations {
 	/*
 		get_diag method return vector that contains the elements that on the matrix diagonal.
 	*/
-	vector<double> get_diag(vector<vector<double>>& matrix) {
+	Vector get_diag(const Matrix& matrix) {
 		int row = matrix.size();
 		int col = matrix[0].size();
 
@@ -424,7 +423,7 @@ namespace Matrix_Operations {
 		}
 
 		//pre-allocation of the vector size: 
-		vector<double> diagonal(row);
+		Vector diagonal(row);
 
 		for (int i = 0; i < row; i++)
 		{
@@ -437,7 +436,7 @@ namespace Matrix_Operations {
 	/*
 		diag_to_matrix method convert a vector to diagonal matrix in size size_val value.
 	*/
-	vector<vector<double>> diag_to_matrix(vector<double>& diagonal, int size_val) {
+	Matrix diag_to_matrix(const Vector& diagonal, int size_val) {
 		int n = diagonal.size();
 
 		//The case that the desire matrix size is smaller than 
@@ -448,8 +447,8 @@ namespace Matrix_Operations {
 		}
 
 		//pre-allocation of the vector size:
-		vector<double> v(size_val, 0);
-		vector<vector<double>> new_matrix(size_val, v);
+		Vector v(size_val, 0);
+		Matrix new_matrix(size_val, v);
 
 		for (int i = 0; i < n; i++)
 		{
@@ -464,7 +463,7 @@ namespace Matrix_Operations {
 		get_column method get matrix and column. The method rturn vector
 		with the elements of this matrix's column.
 	*/
-	vector<double> get_column(vector<vector<double>>& matrix, int column) {
+	Vector get_column(const Matrix& matrix, int column) {
 
 		//Check that the given column number is not out of range.
 		if (matrix[0].size() < column) {
@@ -474,7 +473,7 @@ namespace Matrix_Operations {
 
 		int n = matrix.size();
 		//pre-allocation of the vector size: 
-		vector<double> v(n);
+		Vector v(n);
 
 		for (int i = 0; i < n; i++)
 		{
@@ -487,11 +486,11 @@ namespace Matrix_Operations {
 	/*
 		This method return a copy of the array collapsed into one dimension.
 	*/
-	vector<double> flatten(vector<vector<double>>& matrix) {
+	Vector flatten(const Matrix& matrix) {
 		int row = matrix.size();
 		int col = matrix[0].size();
 
-		vector<double> flat_vector;
+		Vector flat_vector;
 
 		for (int i = 0; i < row; i++)
 		{

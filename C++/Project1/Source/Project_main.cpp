@@ -5,7 +5,6 @@
 #include<chrono>		//for timer
 
 //My header files:
-
 #include "../Header/Matrix_Operations.h"
 #include "../Header/Jacobi.h"
 #include "../Header/QR_Decomposition.h"
@@ -29,11 +28,11 @@ using namespace Matrix_Operations;
 
 inline void is_valid();
 inline void valid_size(int& size);
-void get_matrix_input(std::vector<std::vector<double>>& matrix);
+void get_matrix_input(Matrix& matrix);
 
 int main() {
 
-	vector<vector<double>> matrix;
+	Matrix matrix;
 
 	int x;
 
@@ -65,9 +64,9 @@ int main() {
 			time_type start = start_timer();
 
 			auto tuple1 = SVD(matrix);
-			vector<vector<double>> U = std::get<0>(tuple1);
-			vector<double> Sigma = std::get<1>(tuple1);
-			vector<vector<double>> V_T = std::get<2>(tuple1);
+			Matrix U = std::get<0>(tuple1);
+			Vector Sigma = std::get<1>(tuple1);
+			Matrix V_T = std::get<2>(tuple1);
 
 			std::cout << "\nSVD:\n\n";
 			std::cout << "U = " << std::endl;
@@ -159,7 +158,7 @@ inline void valid_size(int& size) {
 	}
 }
 
-void get_matrix_input(std::vector<std::vector<double>>& matrix) {
+void get_matrix_input(Matrix& matrix) {
 	int x;
 	bool is_val = false;
 	int size;
@@ -191,7 +190,7 @@ void get_matrix_input(std::vector<std::vector<double>>& matrix) {
 			case 2:		//User input:
 			{
 				//Example matrix for user:
-				std::vector<std::vector<double>> example { {1,2,3}, {2,2,4}, {3,4,3} };
+				Matrix example { {1,2,3}, {2,2,4}, {3,4,3} };
 				write_to_file("Input_matrix.txt", example);
 
 				std::cout << "Size of the matrix : ";

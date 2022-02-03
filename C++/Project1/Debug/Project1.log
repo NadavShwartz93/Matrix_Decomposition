@@ -1,8 +1,0 @@
-﻿  Jacobi.cpp
-D:\C++_Area\VS_Project\Project\Matrix_Decomposition\Project1\Source\Jacobi.cpp(284,21): warning C4018: '<': signed/unsigned mismatch
-  Matrix_Operations.cpp
-D:\C++_Area\VS_Project\Project\Matrix_Decomposition\Project1\Source\Matrix_Operations.cpp(469,24): warning C4018: '<': signed/unsigned mismatch
-  Project_main.cpp
-  QR_Decomposition.cpp
-  Generating Code...
-  Project1.vcxproj -> D:\C++_Area\VS_Project\Project\Matrix_Decomposition\Debug\Matrix_Decomposition.exe

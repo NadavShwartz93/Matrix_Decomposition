@@ -1,0 +1,6 @@
+C++/*.sln
+C++/Project1/Debug/**
+C++/Project1/Release/**
+C++/Project1.vcxproj
+C++/vcxproj.filters
+C++/vcxproj.user

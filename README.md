@@ -22,7 +22,7 @@ Create <img src="https://render.githubusercontent.com/render/math?math=R"> matri
 Implementing of the project has been done in C++ and Python :
 
 > ### C++ : 
-The Class Diagram of the C++ project [README](https://github.com/NadavShwartz93/Matrix_Decomposition/tree/main/C%2B%2B) \
+The Class Diagram of the C++ project is located [Here](https://github.com/NadavShwartz93/Matrix_Decomposition/tree/main/C%2B%2B). \
 Project application : [Matrix_Decomposition.exe](https://github.com/NadavShwartz93/Matrix_Decomposition/blob/main/C%2B%2B/Matrix_Decomposition.exe).\
 C++ Source Code and Header Files is located [Here](https://github.com/NadavShwartz93/Matrix_Decomposition/tree/main/C%2B%2B/Project1).\
 C++ Project main files are:\

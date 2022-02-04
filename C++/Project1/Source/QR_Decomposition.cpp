@@ -1,37 +1,20 @@
-#include<iostream>
-#include<vector>
-#include <string>
-
 //My header files:
 #include "../Header/Matrix_Operations.h"
 #include "../Header/QR_Decomposition.h"
 
 
 using namespace std;
-using namespace Matrix_Operations;
+using namespace Matrix_Operations_;
 
-namespace QR_Decomposition {
+namespace QR_Decomposition_ {
 	/*
 	Execute projection operation between two vectors.
 	*/
-	inline Vector projection(Vector u, Vector v1) {
-		double t1 = dot_product(u, v1);
-		double t2 = dot_product(u, u);
-		return dot_product(t1 / t2, u);
-	}
-
-
-	/*
-	Execute subtraction operation between two 1D vectors.
-	*/
-	inline Vector vec_minus(Vector v1, Vector v2) {
-		auto minus = [](double a, double b) { return a - b; };
-		Vector v;
-		for (std::size_t i = 0; i < v1.size(); ++i)
-		{
-			v.push_back(minus(v1[i], v2[i]));
-		}
-		return v;
+	inline Vector QR_Decomposition::projection(Vector u, Vector v1) {
+		double t1 = u * v1;
+		double t2 = u * u;
+		t1 = t1 / t2;
+		return t1 * u;
 	}
 
 
@@ -39,7 +22,7 @@ namespace QR_Decomposition {
 	For giveen matrix A[a1, a2, ..., an] in size n x n.
 	Execute Gram Schmidt process, and return new matrix.
 	*/
-	Matrix Gram_Schmidt_process(Matrix matrix) {
+	Matrix QR_Decomposition::Gram_Schmidt_process(Matrix matrix) {
 
 		if (matrix.size() != matrix[0].size()) {
 			std::string str = "The matrix is not square matrix";
@@ -58,7 +41,7 @@ namespace QR_Decomposition {
 			for (int j = 0; j < index; j++)
 			{
 				auto t = projection(new_matrix[j], matrix[i]);
-				b = vec_minus(b, t);
+				b = b - t;
 			}
 
 			index++;
@@ -74,7 +57,7 @@ namespace QR_Decomposition {
 	the columns of the matrix that has been received
 	from Gram Schmidt process.
 	*/
-	Matrix Q_matrix(Matrix U) {
+	Matrix QR_Decomposition::Q_matrix(Matrix U) {
 		Matrix Q;
 
 		transpose(U);
@@ -93,29 +76,32 @@ namespace QR_Decomposition {
 		R is an upper triangular matrix.
 		R produce by multiplication of Q transpose and input_matrix.
 	*/
-	Matrix R_matrix(Matrix input_matrix,
+	Matrix QR_Decomposition::R_matrix(Matrix input_matrix,
 		Matrix Q) {
 
 		transpose(Q);
-		return dot_product(Q, input_matrix, my_round);
+		return dot_product(Q, input_matrix, true);
 	}
 
 
 	/*
 		Calculation of QR decomposition of the given matrix.
 	*/
-	void QR_decomposition(const Matrix& input_matrix) {
+	void QR_Decomposition::QR_decomposition(const Matrix& input_matrix) {
 		std::cout << "Matrix after Gram Schmidt process:" << std::endl;
 		auto mtx = Gram_Schmidt_process(input_matrix);
-		print_matrix(mtx);
+		std::cout << mtx;
+		//print_matrix(mtx);
 
 		std::cout << "Q Matrix:" << std::endl;
 		auto Q = Q_matrix(mtx);
-		print_matrix(Q);
+		std::cout << Q;
+		//print_matrix(Q);
 
 		std::cout << "R Matrix:" << std::endl;
 		auto R = R_matrix(input_matrix, Q);
-		print_matrix(R);
+		std::cout << R;
+		//print_matrix(R);
 
 		check_decomposition(Q, R);
 	}
@@ -124,13 +110,14 @@ namespace QR_Decomposition {
 	/*
 		Checking that the Q * R is equal to input matrix.
 	*/
-	void check_decomposition(const Matrix& Q,
+	void QR_Decomposition::check_decomposition(const Matrix& Q,
 		const Matrix& R) {
 
 		std::cout << "Examination Of The Decomposition: " << std::endl;
 		std::cout << "Q*R = " << std::endl;
 		auto mul = dot_product(Q, R);
-		print_matrix(mul);
+		std::cout << mul;
+		//print_matrix(mul);
 
 	}
 

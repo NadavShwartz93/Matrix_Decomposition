@@ -1,178 +1,17 @@
-#include<iostream>
-#include <fstream>
-#include<vector>
-#include <string>
-#include <functional>
-#include <cstdio>		//for remove file operation
-#include <random>		//for generate random numbers
-
 //My header files:
+#include "../Header/Header.h"
 #include "../Header/Matrix_Operations.h"
 
-using namespace std;
 
-
-namespace Matrix_Operations {
+namespace Matrix_Operations_ {
 
 	//Method for print vectors/matrix and for reading input file:
 
-	/*
-		print_vec method print the given vector to the console.
-	*/
-	void print_vec(const Vector& v) {
-		bool flag = false;
-
-		for (std::size_t i = 0; i < v.size(); ++i)
-		{
-			if (v.size() == 1)
-				std::cout << "[" << v[i] << "]" << std::endl;
-			else if (i == 0)
-				std::cout << "[" << v[i] << ",	";
-			else if (i + 1 == v.size())
-				std::cout << v[i] << "]" << std::endl;
-			else {
-				std::cout << v[i] << ",	";
-
-				//The case the given vector is bigger then 10 elements:
-				if (i > 2 and v.size() > 10 and not flag) {
-					std::cout << "...	";
-					i = v.size() - 4;
-					flag = true;
-				}
-			}
-		}
-	}
-
-
-
-	/*
-		print_matrix method print the given matrix to the console.
-	*/
-	void print_matrix(const Matrix& matrix) {
-		bool flag = false;
-
-		for (std::size_t i = 0; i < matrix.size(); ++i)
-		{
-			if (matrix.size() == 1) {
-				std::cout << "[\n ";
-				print_vec(matrix[i]);
-				std::cout << "]" << std::endl;
-			}
-			else if (i == 0) {
-				std::cout << "[ ";
-				print_vec(matrix[i]);
-			}
-			else if (i + 1 == matrix.size()) {
-				std::cout << " ";
-				print_vec(matrix[i]);
-				std::cout << "] " << std::endl;
-			}
-			else {
-				std::cout << " ";
-				print_vec(matrix[i]);
-
-				//The case the given matrix is bigger then 10 elements:
-				if (i > 2 and matrix.size() > 10 and not flag) {
-					std::cout << " ...	\n";
-					i = matrix.size() - 4;
-					flag = true;
-				}
-			}
-		}
-	}
-
-
-	/*
-		read_file method read the all content from the input file.
-		The method return matrix with all the values from the input file.
-	*/
-	Matrix read_file(const std::string& file_name) {
-		std::string line;
-		fstream newfile;
-		Matrix matrix;
-
-		newfile.open(file_name, ios::in); //open a file to perform read operation using file object
-
-		if (newfile.is_open()) {   //checking that the file is open
-
-			while (getline(newfile, line)) { //read data from file object and put it into string.
-				auto vector = read_line(line);
-				matrix.push_back(vector);
-			}
-
-			newfile.close(); //close the file object.
-		}
-		return matrix;
-	}
-
-
-	/*
-		read_line method get string value and convert it to vector of double.
-	*/
-	Vector read_line(std::string line) {
-
-		Vector v;
-
-		size_t pos = 0;
-		std::string delimiter = ",";
-		while ((pos = line.find(delimiter)) != std::string::npos) {
-			std::string token = line.substr(0, pos);
-
-			double num = std::stod((const std::string&)token);
-			v.push_back(num);
-
-			line.erase(0, pos + delimiter.length());
-		}
-
-		//Last number in the line do not have comma after it.
-		double num = std::stod((const std::string&)line);
-		v.push_back(num);
-
-		return v;
-	}
-
-
-	/*
-	write_to_file method write the content of the given matrix to the file.
-	The method True if succeeded.
-	*/
-	bool write_to_file(const std::string& file_name, const Matrix& mtx) {
-
-		int row = mtx.size();
-		int col = mtx[0].size();
-
-		//remove the file if exists - string.c_str() convert string to char*
-		std::remove(file_name.c_str());
-
-		ofstream myfile;
-		myfile.open(file_name, ios::out | ios::app | ios::binary);
-
-		if (myfile.is_open()) {		//ok, proceed with output
-
-			std::string delimiter = ",";
-			for (int i = 0; i < row; i++)
-			{
-				for (int j = 0; j < col; j++)
-				{
-					if (not(j + 1 < col))		//Case of the last number in the matrix
-						myfile << mtx[i][j];
-					else
-						myfile << mtx[i][j] << ",";
-				}
-				if (i + 1 < row)
-					myfile << "\n";
-			}
-			myfile.close(); //close the file object.
-			return true;
-		}
-		return false;
-	}
-
-
+	
 	/*
 	generate_matrix method randomly generate matrix.
 	*/
-	Matrix generate_matrix(int size) {
+	Matrix Matrix__Operations::generate_matrix(int size) {
 
 		//Initialize parameters:
 		std::random_device rd;
@@ -194,14 +33,13 @@ namespace Matrix_Operations {
 	}
 
 
-
 	//Matrix Operation Methods:
 
 
 	/*
 		This method return the vetor length.
 	*/
-	double vec_length(const Vector& v) {
+	double Matrix__Operations::vec_length(const Vector& v) {
 		double sum = 0;
 		for (auto& num : v) {
 			sum += pow(num, 2);
@@ -225,7 +63,7 @@ namespace Matrix_Operations {
 	   {4, 5.5, 6}
 	 }
 	*/
-	void transpose(Matrix& matrix) {
+	void Matrix__Operations::transpose(Matrix& matrix) {
 		Matrix new_matrix;
 		int row = matrix.size();
 		int col = matrix[0].size();
@@ -249,8 +87,8 @@ namespace Matrix_Operations {
 	/*
 		dot_product method perform matrix multiplication, and return the result.
 	*/
-	Matrix dot_product(const Matrix& matrix1,
-		Matrix matrix2, std::function<void(double&)> F) {
+	Matrix Matrix__Operations::dot_product(const Matrix& matrix1,
+		Matrix matrix2, bool check) {
 
 		int row_matrix1 = matrix1.size();
 		int col_matrix1 = matrix1[0].size();
@@ -278,7 +116,7 @@ namespace Matrix_Operations {
 		{
 			for (int j = 0; j < row_matrix2_T; j++)
 			{
-				double num = dot_product(matrix1[i], matrix2[j], F);
+				double num = dot_product(matrix1[i], matrix2[j], check);
 				new_matrix[i][j] = num;
 			}
 		}
@@ -286,10 +124,11 @@ namespace Matrix_Operations {
 		return new_matrix;
 	}
 
+
 	/*
 		dot_product method return the result of the multiplication between vector1 and vector2.
 	*/
-	double dot_product(const Vector& v1, const Vector& v2, std::function<void(double&)> F) {
+	double Matrix__Operations::dot_product(const Vector& v1, const Vector& v2, bool check) {
 		int n;
 
 		if ((n = v1.size()) != v2.size()) {
@@ -301,8 +140,8 @@ namespace Matrix_Operations {
 		for (int i = 0; i < n; i++)
 			sum += (v1[i] * v2[i]);
 
-		if (F != nullptr)
-			F(sum);
+		if (check)
+			my_round<double>(sum);
 
 
 		return sum;
@@ -312,20 +151,15 @@ namespace Matrix_Operations {
 	/*
 		dot_product method return the result of the multiplication between given scalar and vector.
 	*/
-	Vector dot_product(double scalar, Vector& v) {
-
-		for (std::size_t i = 0; i < v.size(); ++i)
-		{
-			v[i] = scalar * v[i];
-		}
-		return v;
+	Vector Matrix__Operations::dot_product(double scalar, Vector& v) {
+		return scalar * v;
 	}
 
 
 	/*
 		rotation_product method execute matrix multiplication of regular matrix and rotation matrix.
 	*/
-	Matrix rotation_product(Matrix& matrix,
+	Matrix Matrix__Operations::rotation_product(Matrix& matrix,
 		Matrix rotation, int p, int q) {
 		int row_matrix = matrix.size();
 		int col_matrix = matrix[0].size();
@@ -354,9 +188,11 @@ namespace Matrix_Operations {
 			for (int j = 0; j < inner_iteration; j++)
 			{
 				if (j == 0)
-					index_ip = dot_product(matrix[i], rotation[p]);
+					index_ip = matrix[i] * rotation[p];
+				//index_ip = dot_product(matrix[i], rotation[p]);
 				else
-					index_iq = dot_product(matrix[i], rotation[q]);
+					index_iq = matrix[i] * rotation[q];
+					//index_iq = dot_product(matrix[i], rotation[q]);
 			}
 			matrix[i][p] = index_ip;
 			matrix[i][q] = index_iq;
@@ -369,7 +205,7 @@ namespace Matrix_Operations {
 		diagonal_multiplication method execute matrix multiplication of regular matrix
 		and diagonal matrix.
 	*/
-	Matrix diagonal_multiplication(Matrix& matrix,
+	Matrix Matrix__Operations::diagonal_multiplication(Matrix& matrix,
 		const Matrix& diagonal) {
 		int row_matrix = matrix.size();
 		int col_matrix = matrix[0].size();
@@ -397,7 +233,7 @@ namespace Matrix_Operations {
 	/*
 		eye_matrix method return the identity matrix of size n.
 	*/
-	Matrix eye_matrix(int n) {
+	Matrix Matrix__Operations::eye_matrix(int n) {
 		//pre-allocation of the vector size:
 		Vector v(n, 0.0);
 		Matrix I(n, v);
@@ -412,7 +248,7 @@ namespace Matrix_Operations {
 	/*
 		get_diag method return vector that contains the elements that on the matrix diagonal.
 	*/
-	Vector get_diag(const Matrix& matrix) {
+	Vector Matrix__Operations::get_diagonal_matrix(const Matrix& matrix) {
 		int row = matrix.size();
 		int col = matrix[0].size();
 
@@ -436,7 +272,7 @@ namespace Matrix_Operations {
 	/*
 		diag_to_matrix method convert a vector to diagonal matrix in size size_val value.
 	*/
-	Matrix diag_to_matrix(const Vector& diagonal, int size_val) {
+	Matrix Matrix__Operations::diagonal_to_matrix(const Vector& diagonal, int size_val) {
 		int n = diagonal.size();
 
 		//The case that the desire matrix size is smaller than 
@@ -463,7 +299,7 @@ namespace Matrix_Operations {
 		get_column method get matrix and column. The method rturn vector
 		with the elements of this matrix's column.
 	*/
-	Vector get_column(const Matrix& matrix, int column) {
+	Vector Matrix__Operations::get_column(const Matrix& matrix, int column) {
 
 		//Check that the given column number is not out of range.
 		if (matrix[0].size() < column) {
@@ -486,7 +322,7 @@ namespace Matrix_Operations {
 	/*
 		This method return a copy of the array collapsed into one dimension.
 	*/
-	Vector flatten(const Matrix& matrix) {
+	Vector Matrix__Operations::flatten(const Matrix& matrix) {
 		int row = matrix.size();
 		int col = matrix[0].size();
 
@@ -506,9 +342,9 @@ namespace Matrix_Operations {
 	/*
 		my_round check if num is smaller than TOTAL value. If so, then num become zero.
 	*/
-	void my_round(double& num) {
+	/*void Mtx_Operations::my_round(double& num) {
 		if (std::abs(num) < TOTAL)
 			num = 0;
-	}
+	}*/
 
 };

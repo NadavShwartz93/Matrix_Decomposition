@@ -49,7 +49,7 @@ namespace Jacobi_ {
 		*/
 		void calc_matrix(Matrix& mtx, double cos, double sin, int i, int j);
 
-
+	private:
 		/*
 			check_and_update method is doing the following things:
 			Convert matrix elemnt that is smaller than TOTAL (almost equal to 0) to be 0.
@@ -57,7 +57,7 @@ namespace Jacobi_ {
 		*/
 		bool check_and_update(Matrix& matrix);
 
-	private:
+	
 	};
 
 };

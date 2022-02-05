@@ -29,7 +29,7 @@ namespace QR_Decomposition_ {
 			throw std::invalid_argument(str);
 		}
 
-		transpose(matrix);
+		Matrix__Operations::transpose(matrix);
 		int index = 1;
 
 		Matrix new_matrix;
@@ -47,7 +47,7 @@ namespace QR_Decomposition_ {
 			index++;
 			new_matrix.push_back(b);
 		}
-		transpose(new_matrix);
+		Matrix__Operations::transpose(new_matrix);
 		return new_matrix;
 	}
 
@@ -60,15 +60,16 @@ namespace QR_Decomposition_ {
 	Matrix QR_Decomposition::Q_matrix(Matrix U) {
 		Matrix Q;
 
-		transpose(U);
+		Matrix__Operations::transpose(U);
 
 		for (std::size_t i = 0; i < U.size(); ++i)
 		{
 			double v_len = vec_length(U[i]);
-			Q.push_back(dot_product(1 / v_len, U[i]));
+			Q.push_back(Matrix__Operations::dot_product(1 / v_len, U[i]));
 		}
-		transpose(Q);
+		Matrix__Operations::transpose(Q);
 		return(Q);
+
 	}
 
 
@@ -79,8 +80,9 @@ namespace QR_Decomposition_ {
 	Matrix QR_Decomposition::R_matrix(Matrix input_matrix,
 		Matrix Q) {
 
-		transpose(Q);
-		return dot_product(Q, input_matrix, true);
+		Matrix__Operations::transpose(Q);
+		return Matrix__Operations::dot_product(Q, input_matrix, true);
+
 	}
 
 
@@ -88,22 +90,21 @@ namespace QR_Decomposition_ {
 		Calculation of QR decomposition of the given matrix.
 	*/
 	void QR_Decomposition::QR_decomposition(const Matrix& input_matrix) {
+
 		std::cout << "Matrix after Gram Schmidt process:" << std::endl;
-		auto mtx = Gram_Schmidt_process(input_matrix);
+		auto mtx = this->Gram_Schmidt_process(input_matrix);
 		std::cout << mtx;
-		//print_matrix(mtx);
 
 		std::cout << "Q Matrix:" << std::endl;
-		auto Q = Q_matrix(mtx);
+		auto Q = this->Q_matrix(mtx);
 		std::cout << Q;
-		//print_matrix(Q);
 
 		std::cout << "R Matrix:" << std::endl;
-		auto R = R_matrix(input_matrix, Q);
+		auto R = this->R_matrix(input_matrix, Q);
 		std::cout << R;
-		//print_matrix(R);
 
-		check_decomposition(Q, R);
+		this->check_decomposition(Q, R);
+
 	}
 
 
@@ -115,9 +116,8 @@ namespace QR_Decomposition_ {
 
 		std::cout << "Examination Of The Decomposition: " << std::endl;
 		std::cout << "Q*R = " << std::endl;
-		auto mul = dot_product(Q, R);
+		auto mul = Matrix__Operations::dot_product(Q, R);
 		std::cout << mul;
-		//print_matrix(mul);
 
 	}
 

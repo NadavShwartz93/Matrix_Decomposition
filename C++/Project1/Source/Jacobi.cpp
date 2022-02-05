@@ -51,8 +51,8 @@ namespace Jacobi_ {
 
 		//alocation new identity matrix:
 		int n = matrix.size();
-		auto J = this->eye_matrix(n);;
-
+		auto J = Matrix__Operations::eye_matrix(n);;
+		
 		double theta;
 
 		//calculate theta:
@@ -153,7 +153,7 @@ namespace Jacobi_ {
 
 		//Initialize of the variables:
 		int n = matrix.size();
-		Matrix J = this->eye_matrix(n);
+		Matrix J = Matrix__Operations::eye_matrix(n);
 
 		//Set limit on the number of iterations:
 		int max_iterations = 100;
@@ -163,40 +163,40 @@ namespace Jacobi_ {
 		while (true)
 		{
 			//Get matrix max number and his index:
-			auto tuple1 = find_max_num(matrix);
+			auto tuple1 = this->find_max_num(matrix);
 			double max_val = std::get<0>(tuple1);
 			int p = std::get<1>(tuple1);
 			int q = std::get<2>(tuple1);
 
 			if (max_val < TOTAL)
-				return std::make_tuple(J, this->get_diagonal_matrix(matrix), cur_iteration_num);
+				return std::make_tuple(J, Matrix__Operations::get_diagonal_matrix(matrix), cur_iteration_num);
 
 			//Get rotation matrix and get cos and sin values:
-			auto tuple2 = calce_J_matrix(matrix, p, q);
+			auto tuple2 = this->calce_J_matrix(matrix, p, q);
 			Matrix J1 = std::get<0>(tuple2);
 			double cosinus = std::get<1>(tuple2);
 			double sinus = std::get<2>(tuple2);
 
 			//Calculate the new matrix:
-			calc_matrix(matrix, cosinus, sinus, p, q);
+			this->calc_matrix(matrix, cosinus, sinus, p, q);
 
 			//Calculate the eigenvectors:
-			J = this->rotation_product(J, J1, p, q);
+			J = Matrix__Operations::rotation_product(J, J1, p, q);
 
 			cur_iteration_num++;
-			if (check_and_update(matrix) or cur_iteration_num == 3000)
+			if (this->check_and_update(matrix) or cur_iteration_num == 3000)
 				break;
 		}
 
 		//std::cout << "Number of iteration : " << cur_iteration_num << std::endl;
-		return std::make_tuple(J, this->get_diagonal_matrix(matrix), cur_iteration_num);
+		return std::make_tuple(J, Matrix__Operations::get_diagonal_matrix(matrix), cur_iteration_num);
 	}
 
 
-		/*
-		rearrange method remove negative and zero Eigenvalues and their Eigenvectors.
-		The method return Sorted list, of Eigenvalues and their Eigenvectors.
-		*/
+	/*
+	rearrange method remove negative and zero Eigenvalues and their Eigenvectors.
+	The method return Sorted list, of Eigenvalues and their Eigenvectors.
+	*/
 	vector<std::tuple<double, Vector>>
 	Jacobi::rearrange(const Matrix& eigenvectors, const Vector& lamdas) {
 		//Initialize of the variables:
@@ -206,7 +206,7 @@ namespace Jacobi_ {
 		for (std::size_t i = 0; i < lamdas.size(); ++i)
 		{
 			if (lamdas[i] > 0) {
-				auto tuple = std::make_tuple(lamdas[i], this->get_column(eigenvectors, i));
+				auto tuple = std::make_tuple(lamdas[i], Matrix__Operations::get_column(eigenvectors, i));
 				if (t_vecs.size() == 0)
 					t_vecs.push_back(tuple);
 				else {

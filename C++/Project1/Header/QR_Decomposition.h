@@ -42,13 +42,15 @@ namespace QR_Decomposition_ {
 		void QR_decomposition(const Matrix& input_matrix);
 
 
+	private:
+
 		/*
 			Checking that the Q * R is equal to input matrix.
 		*/
 		void check_decomposition(const Matrix& Q,
 			const Matrix& R);
 
-	private:
+
 		/*
 		Execute projection operation between two vectors.
 		*/

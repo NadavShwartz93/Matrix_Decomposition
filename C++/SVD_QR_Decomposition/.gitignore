@@ -2,3 +2,8 @@
 Release/
 Matrix_Decomposition.exe
 *.sln
+Project1/Debug/
+Project1/Release/
+Project1/*.vcxproj.user
+Project1/*.vcxproj
+Project1/*.vcxproj.filters

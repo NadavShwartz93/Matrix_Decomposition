@@ -2,7 +2,7 @@
 #define SVD_
 
 //My header files
-#include "../Header/Jacobi.h"
+#include "../Headers/Jacobi.h"
 /// <summary>
 /// 
 /// </summary>
@@ -36,7 +36,7 @@ private:
 	Vector Sigma;
 	Matrix U;
 	Matrix V_T;
-	Jacobi* jacobi;
+	Jacobi* jacobi = nullptr;;
 
 	void clear_fields();
 	void SVD_clc(const Matrix& input_matrix);

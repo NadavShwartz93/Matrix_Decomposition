@@ -1,0 +1,11 @@
+﻿  File.cpp
+  Jacobi.cpp
+  Matrix_Operations.cpp
+D:\Users\Default\Downloads\Matrix_Decomposition\C++\SVD_QR_Decomposition\Project\Sources\Matrix_Operations.cpp(306,24): warning C4018: '<': signed/unsigned mismatch
+  Operators.cpp
+  Project_main.cpp
+  QR_Decomposition.cpp
+  SVD.cpp
+D:\Users\Default\Downloads\Matrix_Decomposition\C++\SVD_QR_Decomposition\Project\Sources\SVD.cpp(75,20): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  SVD_QR_Decomposition.vcxproj -> D:\Users\Default\Downloads\Matrix_Decomposition\C++\SVD_QR_Decomposition\Workspace\VS2019\Debug\SVD_QR_Decomposition.exe

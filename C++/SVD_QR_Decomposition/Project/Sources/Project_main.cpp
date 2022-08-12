@@ -1,12 +1,12 @@
 //My header files:
 
-#include "../Header/Header.h"
-#include "../Header/Matrix_Operations.h"
-#include "../Header/Jacobi.h"
-#include "../Header/QR_Decomposition.h"
-#include "../Header/SVD.h"
-#include "../Header/File.h"
-#include "../Header/Timer.hpp"
+#include "../Headers/Header.h"
+#include "../Headers/Matrix_Operations.h"
+#include "../Headers/Jacobi.h"
+#include "../Headers/QR_Decomposition.h"
+#include "../Headers/SVD.h"
+#include "../Headers/File.h"
+#include "../Headers/Timer.hpp"
 
 
 using namespace QR_Decomposition_;
@@ -24,9 +24,9 @@ public:
 	void run_project();
 
 private:
-	SVD* SVD_ptr;
-	QR_Decomposition* QR_ptr;
-	File* File_ptr;
+	SVD* SVD_ptr = nullptr;
+	QR_Decomposition* QR_ptr = nullptr;
+	File* File_ptr = nullptr;
 
 	inline void is_valid();
 	inline void valid_size(int& size);
@@ -35,8 +35,12 @@ private:
 };
 
 
-Project_main::Project_main() : SVD_ptr(new SVD()), QR_ptr(new QR_Decomposition()), File_ptr(new File())
-{}
+Project_main::Project_main() : 
+	SVD_ptr(new SVD()), 
+	QR_ptr(new QR_Decomposition()), 
+	File_ptr(new File())
+{
+}
 
 Project_main::~Project_main() {
 	delete SVD_ptr;
@@ -48,7 +52,8 @@ Project_main::~Project_main() {
 	std::cout << "Delete File' QR' Pointer." << std::endl;
 }
 
-void Project_main::run_project() {
+void Project_main::run_project() 
+{
 
 	Matrix matrix;
 
@@ -136,7 +141,8 @@ void Project_main::run_project() {
 }
 
 
-void Project_main::get_matrix_input(Matrix& matrix) {
+void Project_main::get_matrix_input(Matrix& matrix) 
+{
 	int x;
 	bool is_val = false;
 	int size;
@@ -189,7 +195,8 @@ void Project_main::get_matrix_input(Matrix& matrix) {
 
 
 //Input validation.
-inline void Project_main::is_valid() {
+inline void Project_main::is_valid() 
+{
 	if (std::cin.fail()) {
 		std::cerr << "Error Input" << std::endl;
 		std::cin.clear();
@@ -200,7 +207,8 @@ inline void Project_main::is_valid() {
 
 
 //Input validation - check if the size of the matrix is valid.
-inline void Project_main::valid_size(int& size) {
+inline void Project_main::valid_size(int& size) 
+{
 
 	while (true)
 	{
@@ -222,12 +230,12 @@ inline void Project_main::clear_matrix(Matrix& matrix)
 
 int main() {
 
-
-	Project_main* runner = new Project_main();
-
+	std::shared_ptr<Project_main> runner = std::make_shared<Project_main>();
+	
 	runner->run_project();
 
-	delete runner;
+	runner.reset();
+
 	system("PAUSE");
 
 	return 0;

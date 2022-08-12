@@ -1,8 +1,6 @@
-#include "../Header/File.h"
+#include "../Headers/File.h"
 
-
-/*
-	print_vec method print the given vector to the console.
+/*	print_vec method print the given vector to the console.
 */
 void File::print_vec(const Vector& v) {
 	std::cout << v;

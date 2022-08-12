@@ -1,6 +1,6 @@
 //My header files:
-#include "../Header/Matrix_Operations.h"
-#include "../Header/QR_Decomposition.h"
+#include "../Headers/Matrix_Operations.h"
+#include "../Headers/QR_Decomposition.h"
 
 
 using namespace std;

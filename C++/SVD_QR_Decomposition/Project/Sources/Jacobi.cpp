@@ -1,5 +1,5 @@
 //My header files
-#include "../Header/Jacobi.h"
+#include "../Headers/Jacobi.h"
 
 
 //Method for Jacobi Eigenvalue Algorithm:

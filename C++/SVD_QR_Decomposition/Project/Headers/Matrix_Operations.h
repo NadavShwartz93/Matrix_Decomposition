@@ -42,7 +42,8 @@ namespace Matrix_Operations_ {
 		void transpose(Matrix& matrix);
 
 		/*
-			dot_product method perform matrix multiplication, and return the result.
+			dot_product method perform matrix multiplication, 
+			and return the result.
 		*/
 		Matrix dot_product
 		(const Matrix& matrix1, Matrix matrix2, bool check = false);

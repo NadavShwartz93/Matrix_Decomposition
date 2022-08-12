@@ -8,6 +8,7 @@
 #include <fstream>
 #include <cstdio>		//for remove file operation
 #include <random>		//for generate random numbers
+#include <memory>
 
 //Constants
 #define PI 3.14159265358979323846   // pi
